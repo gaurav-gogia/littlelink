@@ -6,6 +6,7 @@ import (
 	"littlelink/errrs"
 	"littlelink/model"
 	"littlelink/router"
+	"log"
 	"net/http"
 	"os"
 	"os/signal"
@@ -22,20 +23,29 @@ func main() {
 	errrs.Handle(err)
 	defer db.Close()
 
-	setupRouter()
+	logFile, err := os.OpenFile(model.LOGSTRING, os.O_APPEND|os.O_CREATE|os.O_RDWR, 0666)
+	errrs.Handle(err)
+	defer logFile.Close()
+
+	log.SetOutput(logFile)
+
+	baseRouter := router.NewBaseRouter(db)
+	setupRouter(baseRouter)
+
 	fmt.Println("Starting Server ....")
 	go http.ListenAndServe(":"+model.LISTENPORT, nil)
 
 	<-done
-	clean(db)
+	clean(db, logFile)
 }
 
-func setupRouter() {
-	http.HandleFunc(model.CREATELITTLE, router.CreateLittle)
-	http.HandleFunc(model.GETBIG, router.GetBig)
+func setupRouter(br *router.BaseRouter) {
+	http.HandleFunc(model.CREATELITTLE, br.SetSmallRoute)
+	http.HandleFunc(model.GETBIG, br.GetLongRoute)
 }
 
-func clean(db *nutsdb.DB) {
+func clean(db *nutsdb.DB, logFile *os.File) {
 	errrs.Handle(db.Close())
+	errrs.Handle(logFile.Close())
 	fmt.Printf("\nShutting Down.\n")
 }
