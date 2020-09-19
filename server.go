@@ -43,6 +43,7 @@ func main() {
 func setupRouter(br *router.BaseRouter) {
 	http.HandleFunc(model.CREATELITTLE, br.SetSmallRoute)
 	http.HandleFunc(model.GETBIG, br.GetLongRoute)
+	http.HandleFunc(model.INDEX, br.Index)
 }
 
 func clean(db *nutsdb.DB, logFile *os.File) {

@@ -7,6 +7,7 @@ const (
 
 // Constants for server routes
 const (
+	INDEX        = "/"
 	CREATELITTLE = "/setSmall"
 	GETBIG       = "/getLong"
 )
