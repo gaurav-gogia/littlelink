@@ -34,6 +34,7 @@ func main() {
 
 	fmt.Println("Starting Server ....")
 	go http.ListenAndServe(":"+model.LISTENPORT, nil)
+	fmt.Printf("Server Started. Live at: http://localhost:%s\n", model.LISTENPORT)
 
 	<-done
 	clean(db, logFile)
