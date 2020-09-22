@@ -6,8 +6,9 @@ import (
 	"littlelink/errrs"
 	"net/http"
 
+	"encoding/json"
+
 	"github.com/xujiajun/nutsdb"
-	"gopkg.in/square/go-jose.v2/json"
 )
 
 func SetSmall(r *http.Request, db *nutsdb.DB) (int, []byte) {
