@@ -15,7 +15,11 @@ func SetSmall(r *http.Request, db *nutsdb.DB) (int, []byte) {
 		return errrs.HandleWrongMethod(r)
 	}
 
-	link := r.FormValue("link")
+	link := r.PostFormValue("link")
+	if link == "" {
+		return errrs.HandleWrongQueryMethod(r)
+	}
+
 	if err := checkLink(link); err != nil {
 		return errrs.HandleLinkFail(r, err.Error())
 	}

@@ -27,6 +27,17 @@ func HandleWrongMethod(r *http.Request) (int, []byte) {
 	return http.StatusMethodNotAllowed, resBytes
 }
 
+func HandleWrongQueryMethod(r *http.Request) (int, []byte) {
+	response := make(map[string]string)
+	response["Error"] = model.ErrQueryMethodNotAllowed.Error()
+	response["Remediation"] = "Please use FORM BODY to send parameters this API"
+	response["POST Call Key"] = "link"
+
+	resBytes, err := json.MarshalIndent(response, "", "	")
+	Handle(err)
+	return http.StatusMethodNotAllowed, resBytes
+}
+
 func HandleLinkFail(r *http.Request, err string) (int, []byte) {
 	go logger.ErrLog(model.MEDIUM, err, r)
 
