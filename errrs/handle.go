@@ -28,6 +28,8 @@ func HandleWrongMethod(r *http.Request) (int, []byte) {
 }
 
 func HandleWrongQueryMethod(r *http.Request) (int, []byte) {
+	go logger.ErrLog(model.LOW, model.ErrMethodNotAllowed.Error(), r)
+
 	response := make(map[string]string)
 	response["Error"] = model.ErrQueryMethodNotAllowed.Error()
 	response["Remediation"] = "Please use FORM BODY to send parameters this API"
