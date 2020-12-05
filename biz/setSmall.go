@@ -1,7 +1,6 @@
 package biz
 
 import (
-	"fmt"
 	"littlelink/dblayer"
 	"littlelink/errrs"
 	"net/http"
@@ -34,7 +33,7 @@ func SetSmall(r *http.Request, db *nutsdb.DB) (int, []byte) {
 	}
 
 	response := make(map[string]string)
-	response["short"] = fmt.Sprintf("%s", sid)
+	response["short"] = sid
 	resBytes, err := json.Marshal(response)
 	errrs.Handle(err)
 
